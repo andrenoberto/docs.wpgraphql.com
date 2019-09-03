@@ -1,0 +1,59 @@
+---
+title: WPGraphQL Polls
+description: A GraphQL interface for WP-Polls
+---
+
+## About the plugin
+
+This plugin extends the WPGraphQL & WP-Polls plugins and provide the interface for consuming the WP-Polls through queries and mutations.
+
+## Examples
+
+### Querying
+
+You can query polls by doing the following query:
+
+```graphql
+query GetAllPolls {
+  polls {
+    id
+    question
+    totalVotes
+    open
+    maxAnswers
+    voted
+    answers {
+      id
+      description
+      votes
+    }
+  }
+}
+
+If you need to query an specific poll you can do it by passing the poll `id` through the query, like the example bellow:
+
+```graphql
+query GetPollById {
+  polls(id: 1) {
+    ...
+  }
+}
+```
+
+## Voting
+
+You can vote in an existing poll like so:
+
+```graphql
+mutation PollVote {
+  vote(input: {
+    clientMutationId: "Vote",
+    id: 1,
+    userId: 1,
+    answers: "1,2,3"
+  }) {
+    status
+    message
+  }
+}
+```
